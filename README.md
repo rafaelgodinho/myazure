@@ -1,8 +1,3 @@
-
-
-
-
-
   <body class="logged-out   env-production  vis-public page-blob">
   
   <div id="readme" class="readme blob instapaper_body">
