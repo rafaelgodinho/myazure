@@ -1,0 +1,33 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "mapradmin"
+    },
+    "adminPassword": {
+      "value": "mapr"
+    },
+    "userImageStorageAccountName": {
+      "value": "6dhusvma5aep4mapr500sa0"
+    },
+    "osDiskVhdUri": {
+      "value": "https://6dhusvma5aep4mapr500sa0.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/MapR500-jsun-osDisk.4a7d0010-a5e7-46ed-8b9d-74feccf10b05.vhd"
+    },
+    "dnsLabelPrefix": {
+      "value": "uniqueDNS"
+    },
+    "location": {
+        "value": "West US"
+    },
+    "osType": {
+      "value": "Linux"
+    },
+    "authenticationType": {
+            "value": "password"
+    },
+    "vmSize": {
+      "value": "Standard_D4"
+    }
+  }
+}
