@@ -1,0 +1,73 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/VM_IP.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminPassword": {
+            "type": "securestring"
+        },
+        "adminUserName": {
+            "type": "string"
+        },
+        "networkInterfaceId": {
+            "type": "string"
+        },
+        "vmName": {
+            "type": "string"
+        },
+        "vmSize": {
+            "defaultValue": "Standard_D13",
+            "type": "string"
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "name": "[parameters('vmName')]",
+            "plan": {
+                "name": "mapr-sandbox-500-community",
+                "product": "mapr-sandbox-vm",
+                "publisher": "mapr-technologies"
+            },
+            "properties": {
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "https://6dhusvma5aep4mapr500sa0.blob.core.windows.net/"
+                    }
+                },
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaceId')]"
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "adminPassword": "[parameters('adminPassword')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "computerName": "[parameters('vmName')]"
+                },
+                "provisioningState": 0,
+                "storageProfile": {
+                    "osDisk": {
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "https://6dhusvma5aep4mapr500sa0.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/MapR500-jsun-osDisk.4a7d0010-a5e7-46ed-8b9d-74feccf10b05.vhd"
+                        },
+                        "name": "MapR500-jsun-osDisk.4a7d0010-a5e7-46ed-8b9d-74feccf10b05.vhd",
+                        "osType": "Linux",
+                        "vhd": {
+                            "uri": "https://6dhusvma5aep4mapr500sa0.blob.core.windows.net/vmcontainera6dbea71-c3a0-4fae-9d81-675e300c59e2/osDisk.a6dbea71-c3a0-4fae-9d81-675e300c59e2.vhd"
+                        }
+                    }
+                }
+            },
+            "type": "Microsoft.Compute/virtualMachines"
+        }
+    ]
+}

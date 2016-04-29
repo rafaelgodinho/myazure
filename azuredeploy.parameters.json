@@ -3,25 +3,31 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "adminUsername": {
-      "value": "username"
+      "value": "mapradmin"
     },
     "adminPassword": {
-      "value": "password!"
+      "value": "mapr"
     },
     "userImageStorageAccountName": {
-      "value": "myStorageAccount"
+      "value": "6dhusvma5aep4mapr500sa0"
     },
     "osDiskVhdUri": {
-      "value": "http://ci21c7135add2.blob.core.windows.net/vhds/cid4b28112a1.vhd"
+      "value": "https://6dhusvma5aep4mapr500sa0.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/MapR500-jsun-osDisk.4a7d0010-a5e7-46ed-8b9d-74feccf10b05.vhd"
     },
     "dnsLabelPrefix": {
       "value": "uniqueDNS"
     },
+    "location": {
+        "value": "West US"
+    },
     "osType": {
       "value": "Linux"
     },
+    "authenticationType": {
+            "value": "password"
+    },
     "vmSize": {
-      "value": "Standard_D2"
+      "value": "Standard_D4"
     }
   }
 }
