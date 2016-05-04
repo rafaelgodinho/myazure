@@ -6,7 +6,7 @@
         "value": "mapr510"
     },
     "clusterSize": {
-        "value": 3
+        "value": 1
     },
     "clusterEdition": {
         "value": "M3"
@@ -15,13 +15,13 @@
         "value": "5.1.0"
     },
     "adminUsername": {
-        "value": "azadmin"
+        "value": "mapradmin"
     },
     "adminPassword": {
-        "value": "bonanza123"
+        "value": "Y4uask!!"
     },
     "maprPassword": {
-        "value": "mapr"
+        "value": "maprazure"
     },
     "location": {
         "value": "West US"
