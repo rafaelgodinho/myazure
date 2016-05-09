@@ -162,7 +162,7 @@ function update_os_rpm() {
 	do_yum_install sysstat
 
 		# Failure to install these components IS NOT critical
-	yum install -y bind-utils less lsof
+	yum install -y bind-utils less lsof expect
 	yum install -y clustershell pdsh
 	yum install -y sshpass
 
