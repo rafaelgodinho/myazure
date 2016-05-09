@@ -2,9 +2,10 @@
 set timeout -1
 set arg1 [lindex $argv 0]
 set arg2 [lindex $argv 1]
+set arg3 [lindex $argv 2]
 set host $arg1
-set passwd $arg2
-set user "mapradmin"
+set user $arg2
+set passwd $arg3
 
 spawn $env(SHELL)
 match_max 100000
