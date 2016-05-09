@@ -180,9 +180,11 @@ if [ $PWAIT -eq 0 ] ; then
 	exit 1
 fi
 
-chmod a+x $BINDIR/dist-sshkeys.sh
-$BINDIR/dist-sshkeys.sh
-[ $? -ne 0 ] && exit 1
+for h in `awk '{print $1}' ${CF_HOSTS_FILE}` ; do
+   chmod a+x $BINDIR/dist-sshkeys.sh 
+   $BINDIR/dist-sshkeys.sh $h $SUDO_PASSWD
+   [ $? -ne 0 ] && exit 1
+done
 
 exit 0
 
