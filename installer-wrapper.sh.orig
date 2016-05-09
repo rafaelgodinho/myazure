@@ -138,7 +138,7 @@ cat ~mapr/.ssh/id_launch.pub >> ~/.ssh/authorized_keys
 # the existence of /home/mapr/prepare-mapr-node.log
 #	NOTE: This depends on the successful execution of
 #	gendist-sshkey for the mapr user above .
-MAPR_USER=root
+MAPR_USER=mapr
 MAPR_USER_DIR=`eval "echo ~${MAPR_USER}"`
 MY_SSH_OPTS="-i $MAPR_USER_DIR/.ssh/id_launch -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes"
 SSHPASS_OPTS="-o PasswordAuthentication=yes   -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
@@ -180,11 +180,6 @@ if [ $PWAIT -eq 0 ] ; then
 	exit 1
 fi
 
-chmod a+x $BINDIR/dist-sshkeys.sh
-$BINDIR/dist-sshkeys.sh
-[ $? -ne 0 ] && exit 1
-
-exit 0
 
 	# Invoke installer
 	#	By default, it will go to https://localhost:9443 ... which is fine
