@@ -138,7 +138,7 @@ cat ~mapr/.ssh/id_launch.pub >> ~/.ssh/authorized_keys
 # the existence of /home/mapr/prepare-mapr-node.log
 #	NOTE: This depends on the successful execution of
 #	gendist-sshkey for the mapr user above .
-MAPR_USER=mapr
+MAPR_USER=root
 MAPR_USER_DIR=`eval "echo ~${MAPR_USER}"`
 MY_SSH_OPTS="-i $MAPR_USER_DIR/.ssh/id_launch -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes"
 SSHPASS_OPTS="-o PasswordAuthentication=yes   -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
