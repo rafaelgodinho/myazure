@@ -77,6 +77,8 @@ sh $BINDIR/gen-create-lock.sh $SUDO_USER
 export MAPR_CLUSTER=AZtest
 [ -f /tmp/mkclustername ] && MAPR_CLUSTER=`cat /tmp/mkclustername` 
 
+exit 0 
+
 chmod a+x $BINDIR/deploy-installer.sh
 $BINDIR/deploy-installer.sh
 [ $? -ne 0 ] && exit 1
