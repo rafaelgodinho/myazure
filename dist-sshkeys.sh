@@ -33,7 +33,7 @@ send -- "sudo mkdir -p /root/.ssh\r"
 expect "$user"
 sleep .2
 
-send -- "Y4uask!!\r"
+send -- "$passwd\r"
 expect "$user"
 sleep .2
 
