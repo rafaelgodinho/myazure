@@ -66,7 +66,7 @@ sh $BINDIR/gen-cluster-hosts.sh ${1:-$CLUSTER_HOSTNAME_BASE} ${2:-}
 
 # For sshPublicKey deployments, we'll need to disable the
 # PasswordAuthentication in sshd_config after the installer exits
-sh $BINDIR/gen-create-lock.sh $SUDO_USER
+#sh $BINDIR/gen-create-lock.sh $SUDO_USER
 
 # At this point, we only need to configure the installer service
 # and launch the process on the one node ... the first one in the cluster
@@ -273,6 +273,6 @@ fi
 # For PublicKey-configured clusters, disable password authentication
 #	NOTE: This means that the users will have to take the private
 #	key from the Admin User to run the installer again.
-[ $dmcRet -eq 0 ] && sh $BINDIR/gen-lock-cluster.sh $SUDO_USER $AUTH_METHOD
+#[ $dmcRet -eq 0 ] && sh $BINDIR/gen-lock-cluster.sh $SUDO_USER $AUTH_METHOD
 
 exit $dmcRet
