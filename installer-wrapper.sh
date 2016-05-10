@@ -41,6 +41,7 @@
 
 THIS=`readlink -f $0`
 BINDIR=`dirname $THIS`
+LOG=/tmp/dist-sshkeys.log
 
 # These admin user settings must match the template
 #	(or be passed in)
@@ -182,7 +183,7 @@ fi
 
 for h in `awk '{print $1}' ${CF_HOSTS_FILE}` ; do
    echo activating passwordless ssh on node $h
-   chmod a+x $BINDIR/dist-sshkeys.sh
+   chmod a+x $BINDIR/dist-sshkeys.sh | tee -a $LOG
    $BINDIR/dist-sshkeys.sh $h $SUDO_USER $SUDO_PASSWD
 done
 
