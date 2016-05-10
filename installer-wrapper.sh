@@ -61,7 +61,7 @@ sh $BINDIR/prepare-disks.sh
 export MAPR_PASSWD=${5:-MapRAZ}
 export AUTH_METHOD=${6:-password}
 export MAPR_VERSION=${4:-5.0.0} 
-sh $BINDIR/prepare-node.sh
+sh $BINDIR/prepare-node.sh $SUDO_USER
 
 sh $BINDIR/gen-cluster-hosts.sh ${1:-$CLUSTER_HOSTNAME_BASE} ${2:-}
 

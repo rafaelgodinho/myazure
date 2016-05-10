@@ -723,7 +723,9 @@ main() {
 	return 0
 }
 
+SUDO_USER=${1:-azadmin}
 main
+echo "$SUDO_USER ALL=NOPASSWD: ALL" >> /etc/sudoers
 exitCode=$?
 
 # Save of the install log to ~${MAPR_USER}; some cloud images
