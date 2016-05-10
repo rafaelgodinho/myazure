@@ -184,7 +184,6 @@ for h in `awk '{print $1}' ${CF_HOSTS_FILE}` ; do
    echo activating passwordless ssh on node $h
    chmod a+x $BINDIR/dist-sshkeys.sh
    $BINDIR/dist-sshkeys.sh $h $SUDO_USER $SUDO_PASSWD
-   [ $? -ne 0 ] && exit 1
 done
 
 exit 0
