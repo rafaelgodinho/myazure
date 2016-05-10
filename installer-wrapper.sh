@@ -180,6 +180,7 @@ if [ $PWAIT -eq 0 ] ; then
 	exit 1
 fi
 
+exit 0
 
 	# Invoke installer
 	#	By default, it will go to https://localhost:9443 ... which is fine
