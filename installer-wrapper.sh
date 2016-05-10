@@ -180,13 +180,6 @@ if [ $PWAIT -eq 0 ] ; then
 	exit 1
 fi
 
-for h in `awk '{print $1}' ${CF_HOSTS_FILE}` ; do
-   chmod a+x $BINDIR/dist-sshkeys.sh 
-   $BINDIR/dist-sshkeys.sh $h $SUDO_USER $SUDO_PASSWD
-   [ $? -ne 0 ] && exit 1
-done
-
-exit 0
 
 	# Invoke installer
 	#	By default, it will go to https://localhost:9443 ... which is fine
@@ -209,6 +202,7 @@ fi
 [ "${MAPR_VERSION%%.*}" = "5" ] && \
 	ECO_PIG='--eco-version pig=0.15'
 
+# 23-Mar-2016: frequent deployment failures with Pig ... skip for now
 ECO_PIG='--eco-version pig=none'
 
 if [ $AUTH_METHOD = "password" ] ; then
@@ -272,6 +266,6 @@ fi
 # For PublicKey-configured clusters, disable password authentication
 #	NOTE: This means that the users will have to take the private
 #	key from the Admin User to run the installer again.
-sh $BINDIR/gen-lock-cluster.sh $SUDO_USER $AUTH_METHOD
+[ $dmcRet -eq 0 ] && sh $BINDIR/gen-lock-cluster.sh $SUDO_USER $AUTH_METHOD
 
 exit $dmcRet
