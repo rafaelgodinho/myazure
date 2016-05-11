@@ -60,7 +60,7 @@ sh $BINDIR/prepare-disks.sh
 export MAPR_PASSWD=${5:-MapRAZ}
 export AUTH_METHOD=${6:-password}
 export MAPR_VERSION=${4:-5.0.0} 
-sh $BINDIR/prepare-node.sh 
+sh $BINDIR/prepare-node.sh $SUDO_USER
 
 sh $BINDIR/gen-cluster-hosts.sh ${1:-$CLUSTER_HOSTNAME_BASE} ${2:-}
 
@@ -131,9 +131,13 @@ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 cat ~mapr/.ssh/id_launch.pub >> ~/.ssh/authorized_keys
-mkdir -p /root/.ssh
-cat ~mapr/.ssh/id_launch.pub >> /root/.ssh/authorized_keys
-cp -f ~mapr/.ssh/id_launch  /root/.ssh/id_rsa
+
+rm -f /root/.ssh/id_rsa.pub
+for h in `awk '{print $1}' ${CF_HOSTS_FILE}` ; do
+   ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo mkdir -p /root/.ssh"
+   ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa"
+   ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys"
+done
 
 # Now make sure that all the nodes have successfully 
 # completed the "prepare" step.  The evidence of that is

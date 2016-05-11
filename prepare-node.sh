@@ -723,6 +723,8 @@ main() {
 	return 0
 }
 
+SUDO_USER=$1
+echo "$SUDO_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
 main
 exitCode=$?
 
