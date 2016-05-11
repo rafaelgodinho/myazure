@@ -133,6 +133,7 @@ chmod 600 ~/.ssh/authorized_keys
 cat ~mapr/.ssh/id_launch.pub >> ~/.ssh/authorized_keys
 
 rm -f /root/.ssh/id_rsa.pub
+echo ${CF_HOSTS_FILE}
 for h in `awk '{print $1}' ${CF_HOSTS_FILE}`
 do
 echo "Distributing ssh key to host $h"
