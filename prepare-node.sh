@@ -725,8 +725,13 @@ main() {
 
 SUDO_USER=$1
 echo "$SUDO_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
-mkdir -p /root/.ssh
 main
+
+cp -f /home/$SUDO_USER/.ssh/config /root/.ssh/config
+mkdir -p /root/.ssh
+cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa
+cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+
 exitCode=$?
 
 # Save of the install log to ~${MAPR_USER}; some cloud images

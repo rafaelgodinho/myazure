@@ -181,16 +181,7 @@ if [ $PWAIT -eq 0 ] ; then
 fi
 
 rm -f /root/.ssh/id_rsa.pub
-echo ${CF_HOSTS_FILE}
 cp -f /home/$SUDO_USER/.ssh/config /root/.ssh/config
-for h in `awk '{print $1}' ${CF_HOSTS_FILE}`
-do
-echo "Distributing ssh key to host $h"
-   ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa"
-   echo ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h \"sudo cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa\"
-   ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys"
-   echo ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h \"sudo cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys\"
-done
 
 exit 0
 
