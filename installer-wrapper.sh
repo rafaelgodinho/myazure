@@ -41,7 +41,6 @@
 
 THIS=`readlink -f $0`
 BINDIR=`dirname $THIS`
-LOG=/tmp/dist-sshkeys.log
 
 # These admin user settings must match the template
 #	(or be passed in)
@@ -61,7 +60,7 @@ sh $BINDIR/prepare-disks.sh
 export MAPR_PASSWD=${5:-MapRAZ}
 export AUTH_METHOD=${6:-password}
 export MAPR_VERSION=${4:-5.0.0} 
-sh $BINDIR/prepare-node.sh $SUDO_USER
+sh $BINDIR/prepare-node.sh 
 
 sh $BINDIR/gen-cluster-hosts.sh ${1:-$CLUSTER_HOSTNAME_BASE} ${2:-}
 
@@ -132,7 +131,9 @@ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 cat ~mapr/.ssh/id_launch.pub >> ~/.ssh/authorized_keys
-
+mkdir -p /root/.ssh
+cat ~mapr/.ssh/id_launch.pub >> /root/.ssh/authorized_keys
+cp -f ~mapr/.ssh/id_launch  /root/.ssh/id_rsa
 
 # Now make sure that all the nodes have successfully 
 # completed the "prepare" step.  The evidence of that is
@@ -180,12 +181,6 @@ if [ $PWAIT -eq 0 ] ; then
 	echo "prepare-node.sh failed on some nodes; cannot proceed"
 	exit 1
 fi
-
-for h in `awk '{print $1}' ${CF_HOSTS_FILE}` ; do
-   echo activating passwordless ssh on node $h
-   chmod a+x $BINDIR/dist-sshkeys.sh | tee -a $LOG
-   $BINDIR/dist-sshkeys.sh $h $SUDO_USER $SUDO_PASSWD
-done
 
 exit 0
 
