@@ -134,6 +134,7 @@ cat ~mapr/.ssh/id_launch.pub >> ~/.ssh/authorized_keys
 
 rm -f /root/.ssh/id_rsa.pub
 echo ${CF_HOSTS_FILE}
+cp -f /home/$SUDO_USER/.ssh/config /root/.ssh/config
 for h in `awk '{print $1}' ${CF_HOSTS_FILE}`
 do
 echo "Distributing ssh key to host $h"
