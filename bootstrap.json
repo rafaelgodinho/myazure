@@ -66,7 +66,6 @@
                     "[concat(parameters('scriptsUri'), 'mount_local_fs.pl')]",
                     "[concat(parameters('scriptsUri'), 'azure-wrapper.sh')]",
                     "[concat(parameters('scriptsUri'), 'mapr-setup.sh')]",
-                    "[concat(parameters('scriptsUri'), 'dist-sshkeys.sh')]",
                     "[concat(parameters('scriptsUri'), 'installer-wrapper.sh')]"
                 ]
             },
