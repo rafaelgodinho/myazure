@@ -138,8 +138,6 @@ cp -f /home/$SUDO_USER/.ssh/config /root/.ssh/config
 for h in `awk '{print $1}' ${CF_HOSTS_FILE}`
 do
 echo "Distributing ssh key to host $h"
-   ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo mkdir -p /root/.ssh"
-   echo ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h \"sudo mkdir -p /root/.ssh\"
    ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa"
    echo ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h \"sudo cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa\"
    ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys"

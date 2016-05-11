@@ -725,6 +725,7 @@ main() {
 
 SUDO_USER=$1
 echo "$SUDO_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
+mkdir -p /root/.ssh
 main
 exitCode=$?
 
