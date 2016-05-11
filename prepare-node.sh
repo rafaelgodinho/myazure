@@ -732,8 +732,8 @@ echo "ls /home/$SUDO_USER/.ssh"
 ls /home/$SUDO_USER/.ssh/
 echo "whoami"
 whoami
-cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa
-cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+/bin/cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa
+/bin/cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 exitCode=$?
 
