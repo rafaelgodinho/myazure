@@ -133,10 +133,15 @@ chmod 600 ~/.ssh/authorized_keys
 cat ~mapr/.ssh/id_launch.pub >> ~/.ssh/authorized_keys
 
 rm -f /root/.ssh/id_rsa.pub
-for h in `awk '{print $1}' ${CF_HOSTS_FILE}` ; do
+for h in `awk '{print $1}' ${CF_HOSTS_FILE}`
+do
+echo "Distributing ssh key to host $h"
    ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo mkdir -p /root/.ssh"
+   echo ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h \"sudo mkdir -p /root/.ssh\"
    ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa"
+   echo ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h \"sudo cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa\"
    ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h "sudo cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys"
+   echo ssh -i /home/$SUDO_USER/.ssh/id_rsa -t $SUDO_USER@$h \"sudo cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys\"
 done
 
 # Now make sure that all the nodes have successfully 
