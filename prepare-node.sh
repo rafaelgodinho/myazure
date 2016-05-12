@@ -708,7 +708,6 @@ function copy_ssh_keys() {
 
 SUDO_USER=$1
 echo "$SUDO_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
-main
 
 mkdir -p /root/.ssh
 echo "ls /home/$SUDO_USER/.ssh" >> $LOG
