@@ -706,16 +706,15 @@ function disable_mapr_services()
 
 function copy_ssh_keys() {
 
-SUDO_USER=$1
-echo "$SUDO_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
+echo "$MAPR_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 mkdir -p /root/.ssh
-echo "ls /home/$SUDO_USER/.ssh" >> $LOG
-echo `ls /home/$SUDO_USER/.ssh` >> $LOG
+echo "ls /home/$MAPR_USER/.ssh" >> $LOG
+echo `ls /home/$MAPR_USER/.ssh` >> $LOG
 echo "whoami" >> $LOG
 echo `whoami` >> $LOG
-/bin/cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa
-/bin/cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+/bin/cp -f /home/$MAPR_USER/.ssh/id_rsa /root/.ssh/id_rsa
+/bin/cp -f /home/$MAPR_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 }
 
 # High level wrapper around the above scripts. 
@@ -731,14 +730,14 @@ main() {
 #	install_mapr_packages
 #	disable_mapr_services
 
-        copy_ssh_keys $1
+        copy_ssh_keys 
 
 	echo "Image creation completed at "`date` >> $LOG
 	echo IMAGE READY >> $LOG
 	return 0
 }
 
-main $1
+main 
 
 exitCode=$?
 

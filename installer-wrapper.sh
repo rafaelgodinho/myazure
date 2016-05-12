@@ -60,7 +60,7 @@ sh $BINDIR/prepare-disks.sh
 export MAPR_PASSWD=${5:-MapRAZ}
 export AUTH_METHOD=${6:-password}
 export MAPR_VERSION=${4:-5.0.0} 
-sh $BINDIR/prepare-node.sh $SUDO_USER
+sh $BINDIR/prepare-node.sh $MAPR_USER
 
 sh $BINDIR/gen-cluster-hosts.sh ${1:-$CLUSTER_HOSTNAME_BASE} ${2:-}
 
@@ -181,7 +181,7 @@ if [ $PWAIT -eq 0 ] ; then
 fi
 
 rm -f /root/.ssh/id_rsa.pub
-cp -f /home/$SUDO_USER/.ssh/config /root/.ssh/config
+cp -f /home/$MAPR_USER/.ssh/config /root/.ssh/config
 
 exit 0
 
