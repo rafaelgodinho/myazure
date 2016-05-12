@@ -704,6 +704,20 @@ function disable_mapr_services()
 	fi
 }
 
+function copy_ssh_keys() {
+
+SUDO_USER=$1
+echo "$SUDO_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
+main
+
+mkdir -p /root/.ssh
+echo "ls /home/$SUDO_USER/.ssh" >> $LOG
+echo `ls /home/$SUDO_USER/.ssh` >> $LOG
+echo "whoami" >> $LOG
+echo `whoami` >> $LOG
+/bin/cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa
+/bin/cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+}
 
 # High level wrapper around the above scripts. 
 # Ideally, we should handle errors correctly here.
@@ -718,22 +732,14 @@ main() {
 #	install_mapr_packages
 #	disable_mapr_services
 
+        copy_ssh_keys $1
+
 	echo "Image creation completed at "`date` >> $LOG
 	echo IMAGE READY >> $LOG
 	return 0
 }
 
-SUDO_USER=$1
-echo "$SUDO_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
-main
-
-mkdir -p /root/.ssh
-echo "ls /home/$SUDO_USER/.ssh"
-ls /home/$SUDO_USER/.ssh/
-echo "whoami"
-whoami
-/bin/cp -f /home/$SUDO_USER/.ssh/id_rsa /root/.ssh/id_rsa
-/bin/cp -f /home/$SUDO_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+main $1
 
 exitCode=$?
 
