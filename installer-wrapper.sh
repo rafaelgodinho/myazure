@@ -143,45 +143,9 @@ MAPR_USER_DIR=`eval "echo ~${MAPR_USER}"`
 MY_SSH_OPTS="-i $MAPR_USER_DIR/.ssh/id_launch -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes"
 SSHPASS_OPTS="-o PasswordAuthentication=yes   -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
-prepared_nodes=0
 nnodes=`wc -l $CF_HOSTS_FILE | awk '{print $1}'`
 
-PTIME=10
-PWAIT=900                # wait no more than 15 minutes
-while [ $prepared_nodes -ne $nnodes  -a  $PWAIT -gt 0 ] ; do
-	echo "$prepared_nodes systems successfully prepared; waiting for $nnodes"
-
-	sleep $PTIME
-	PWAIT=$[PWAIT - $PTIME]
-	prepared_nodes=0
-	for h in `awk '{print $1}' ${CF_HOSTS_FILE}` ; do
-		ssh $MY_SSH_OPTS $MAPR_USER@${h} \
-			-n "ls ${MAPR_USER_DIR}/prepare-mapr-node.log" &> /dev/null
-		sshRtn=$?
-		if [ $sshRtn -eq 255 ] ; then
-				# There is an race condition where the ssh key
-				# does not get distributed by gendist-sshkey because
-				# the mapr user is not provisioned on the some nodes 
-				# by the time this node (node0) runs gendist-sshkey.
-				# To deal with that, we'll try sshpass during the
-				# if the initial ssh returns -1 (key-based access failing)
-			SSHPASS=$MAPR_PASSWD /usr/bin/sshpass -e ssh $SSHPASS_OPTS $MAPR_USER@${h} \
-				-n "ls ${MAPR_USER_DIR}/prepare-mapr-node.log" &> /dev/null
-			[ $? -ne 0 ] && break
-		elif [ $sshRtn -ne 0 ] ; then
-			break
-		fi
-		prepared_nodes=$[prepared_nodes+1]
-	done
-done
-
-if [ $PWAIT -eq 0 ] ; then
-	echo "prepare-node.sh failed on some nodes; cannot proceed"
-	exit 1
-fi
-
-chmod a+x $BINDIR/http.pl 
-$BINDIR/http.pl ${CLUSTER_HOSTNAME_BASE}0
+perl $BINDIR/http.pl ${CLUSTER_HOSTNAME_BASE}0
 
 exit 0
 
