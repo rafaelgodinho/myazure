@@ -10,7 +10,7 @@ if ($myname eq $ARGV[0]){
  system("cp ~mapradmin/.ssh/authorized_keys /root/.ssh");
  system("rm -f /root/.ssh/id_rsa.pub");
  system("cp ~mapradmin/.ssh/id_rsa /root/.ssh");
- system("cp ~mapradmin/.ssh/authorized_keys /var/www/html/key");
+ system("mv ~mapradmin/.ssh/authorized_keys /var/www/html/key");
  system("chmod 755 /var/www/html/key");
  system("service httpd restart");
 
