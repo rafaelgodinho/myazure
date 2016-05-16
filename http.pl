@@ -2,7 +2,6 @@
 $myname=`hostname`; chomp $myname;
 
 $success=1;
-print "$myname--$ARGV[0]\n";
 
 if ($myname eq $ARGV[0]){
  print "this is the first node\n";

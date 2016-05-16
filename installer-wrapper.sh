@@ -180,8 +180,8 @@ if [ $PWAIT -eq 0 ] ; then
 	exit 1
 fi
 
-chmod a+x $BINDIR/http.pl
-$BINDIR/http.pl
+chmod a+x $BINDIR/http.pl 
+$BINDIR/http.pl ${CLUSTER_HOSTNAME_BASE}0
 
 exit 0
 
