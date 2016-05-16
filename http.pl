@@ -14,25 +14,10 @@ if ($myname eq $ARGV[0]){
  system("chmod 755 /var/www/html/key");
  system("service httpd restart");
 
-}else{
-
-while ($success != 0){
-  print "failed\n";
-  sleep 2;
-  `wget http://$ARGV[0]/key -O /tmp/authorized_keys`;
-  $success=$?;
-}
-  print "Key copying succeeded\n";
-  system("mkdir -p /root/.ssh");
-  system("cp /tmp/authorized_keys /root/.ssh/authorized_keys");
-}
-
 $nlist=`awk '{print $1}' /tmp/maprhosts`;chomp $nlist;
 @nlist=split(/\n/,$nlist);
 $num_nodes=$#nlist+1;
 $count=0;
-
-#print "haha $num_nodes\n";
 
 while ($count != $num_nodes){
 foreach $h (@nlist){
@@ -44,5 +29,20 @@ foreach $h (@nlist){
 sleep 2;
 if ($count == $num_nodes){last;}else{$count=0}
 }
-
 print "All nodes ready....\n";
+system("service httpd stop;chkconfig off");
+system("rm -f /var/www/html/key");
+
+}else{
+
+while ($success != 0){
+  print "Waiting to copy keys...\n";
+  sleep 2;
+  `wget http://$ARGV[0]/key -O /tmp/authorized_keys`;
+  $success=$?;
+}
+  print "Key copying succeeded\n";
+  system("mkdir -p /root/.ssh");
+  system("cp /tmp/authorized_keys /root/.ssh/authorized_keys");
+
+}
