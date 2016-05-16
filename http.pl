@@ -6,13 +6,13 @@ $success=1;
 if ($myname eq $ARGV[0]){
  print "this is the first node\n";
  system("yum -y install httpd");
- system("service httpd restart");
  system("mkdir -p /root/.ssh");
  system("cp ~mapradmin/.ssh/authorized_keys /root/.ssh");
  system("rm -f /root/.ssh/id_rsa.pub");
  system("cp ~mapradmin/.ssh/id_rsa /root/.ssh");
  system("cp ~mapradmin/.ssh/authorized_keys /var/www/html/key");
  system("chmod 755 /var/www/html/key");
+ system("service httpd restart");
 
 }else{
 
@@ -26,3 +26,23 @@ while ($success != 0){
   system("mkdir -p /root/.ssh");
   system("cp /tmp/authorized_keys /root/.ssh/authorized_keys");
 }
+
+$nlist=`awk '{print $1}' /tmp/maprhosts`;chomp $nlist;
+@nlist=split(/\n/,$nlist);
+$num_nodes=$#nlist+1;
+$count=0;
+
+#print "haha $num_nodes\n";
+
+while ($count != $num_nodes){
+foreach $h (@nlist){
+  `ssh -oBatchMode=yes $h ls /tmp`;
+  $sshOK=$?;
+  if ($sshOK == 0){$count++}
+  print "$count nodes done out of $num_nodes nodes \n";
+}
+sleep 2;
+if ($count == $num_nodes){last;}else{$count=0}
+}
+
+print "All nodes ready....\n";
