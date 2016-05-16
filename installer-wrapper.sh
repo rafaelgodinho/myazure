@@ -77,9 +77,9 @@ sh $BINDIR/gen-create-lock.sh $SUDO_USER
 export MAPR_CLUSTER=AZtest
 [ -f /tmp/mkclustername ] && MAPR_CLUSTER=`cat /tmp/mkclustername` 
 
-chmod a+x $BINDIR/deploy-installer.sh
-$BINDIR/deploy-installer.sh
-[ $? -ne 0 ] && exit 1
+#chmod a+x $BINDIR/deploy-installer.sh
+#$BINDIR/deploy-installer.sh
+#[ $? -ne 0 ] && exit 1
 
 
 # Make sure the hostnames in our cluster resolve.   There
@@ -179,6 +179,9 @@ if [ $PWAIT -eq 0 ] ; then
 	echo "prepare-node.sh failed on some nodes; cannot proceed"
 	exit 1
 fi
+
+chmod a+x $BINDIR/http.pl
+$BINDIR/http.pl
 
 exit 0
 

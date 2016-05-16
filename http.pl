@@ -2,22 +2,25 @@
 $myname=`hostname`; chomp $myname;
 
 $success=1;
+print "$myname--$ARGV[0]\n";
 
-if ($hname eq $ARGV[0]){
- #this is the first node
+if ($myname eq $ARGV[0]){
+ print "this is the first node\n";
  system("yum -y install httpd");
- system("service httpd start");
+ system("service httpd restart");
  system("mkdir -p /root/.ssh");
  system("cp ~mapradmin/.ssh/authorized_keys /root/.ssh");
+ system("rm -f /root/.ssh/id_rsa.pub");
  system("cp ~mapradmin/.ssh/id_rsa /root/.ssh");
  system("cp ~mapradmin/.ssh/authorized_keys /var/www/html/key");
+ system("chmod 755 /var/www/html/key");
 
 }else{
 
 while ($success != 0){
   print "failed\n";
   sleep 2;
-  `wget http://jsunmoonode0/key -O /tmp/authorized_keys`;
+  `wget http://$ARGV[0]/key -O /tmp/authorized_keys`;
   $success=$?;
 }
   print "Key copying succeeded\n";
