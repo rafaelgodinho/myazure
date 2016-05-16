@@ -72,7 +72,7 @@ sh $BINDIR/gen-create-lock.sh $SUDO_USER
 # and launch the process on the one node ... the first one in the cluster
 
 # Simple test ... are we node 0 ?
-[ "$HOSTNAME" != "${CLUSTER_HOSTNAME_BASE}0" ] && exit 0
+[ "$HOSTNAME" != "${CLUSTER_HOSTNAME_BASE}0" ] && perl $BINDIR/http.pl ${CLUSTER_HOSTNAME_BASE}0 && exit 0
 
 export MAPR_CLUSTER=AZtest
 [ -f /tmp/mkclustername ] && MAPR_CLUSTER=`cat /tmp/mkclustername` 
