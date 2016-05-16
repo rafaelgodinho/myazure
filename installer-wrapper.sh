@@ -180,8 +180,7 @@ if [ $PWAIT -eq 0 ] ; then
 	exit 1
 fi
 
-rm -f /root/.ssh/id_rsa.pub
-cp -f /home/$MAPR_USER/.ssh/config /root/.ssh/config
+yum -y install httpd
 
 exit 0
 

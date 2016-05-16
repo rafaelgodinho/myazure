@@ -162,7 +162,7 @@ function update_os_rpm() {
 	do_yum_install sysstat
 
 		# Failure to install these components IS NOT critical
-	yum install -y bind-utils less lsof expect
+	yum install -y bind-utils less lsof expect 
 	yum install -y clustershell pdsh
 	yum install -y sshpass
 
@@ -704,19 +704,6 @@ function disable_mapr_services()
 	fi
 }
 
-function copy_ssh_keys() {
-
-echo "$MAPR_USER   ALL=NOPASSWD: ALL" >> /etc/sudoers
-
-mkdir -p /root/.ssh
-echo "ls /home/$MAPR_USER/.ssh" >> $LOG
-echo `ls /home/$MAPR_USER/.ssh` >> $LOG
-echo "whoami" >> $LOG
-echo `whoami` >> $LOG
-/bin/cp -f /home/$MAPR_USER/.ssh/id_rsa /root/.ssh/id_rsa
-/bin/cp -f /home/$MAPR_USER/.ssh/id_rsa.pub /root/.ssh/authorized_keys
-}
-
 # High level wrapper around the above scripts. 
 # Ideally, we should handle errors correctly here.
 main() {
@@ -729,8 +716,6 @@ main() {
 	setup_mapr_repo
 #	install_mapr_packages
 #	disable_mapr_services
-
-        copy_ssh_keys 
 
 	echo "Image creation completed at "`date` >> $LOG
 	echo IMAGE READY >> $LOG
