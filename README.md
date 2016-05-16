@@ -61,9 +61,3 @@ the cluster.   Because the namespace for storage accounts is global
 across Azure regions, you must be careful to specify a unique MapR
 cluster name in order to avoid errors during the deployment.
 
-<h2>
-Notes on git
-</h2>
-
-http://www.xkcd.org/1597/
-

@@ -118,8 +118,8 @@ function main() {
 	done
 
 		# If we need to debug the installer
-	sed -i "s/\"debug\": false/\"debug\": true/" ${INSTALLER_HOME}/data/properties.json
-	service mapr-installer reload
+#	sed -i "s/\"debug\": false/\"debug\": true/" ${INSTALLER_HOME}/data/properties.json
+#	service mapr-installer reload
 
 	return 0
 

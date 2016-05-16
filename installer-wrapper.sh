@@ -60,13 +60,13 @@ sh $BINDIR/prepare-disks.sh
 export MAPR_PASSWD=${5:-MapRAZ}
 export AUTH_METHOD=${6:-password}
 export MAPR_VERSION=${4:-5.0.0} 
-sh $BINDIR/prepare-node.sh $MAPR_USER
+sh $BINDIR/prepare-node.sh
 
 sh $BINDIR/gen-cluster-hosts.sh ${1:-$CLUSTER_HOSTNAME_BASE} ${2:-}
 
 # For sshPublicKey deployments, we'll need to disable the
 # PasswordAuthentication in sshd_config after the installer exits
-#sh $BINDIR/gen-create-lock.sh $SUDO_USER
+sh $BINDIR/gen-create-lock.sh $SUDO_USER
 
 # At this point, we only need to configure the installer service
 # and launch the process on the one node ... the first one in the cluster
@@ -77,9 +77,9 @@ sh $BINDIR/gen-cluster-hosts.sh ${1:-$CLUSTER_HOSTNAME_BASE} ${2:-}
 export MAPR_CLUSTER=AZtest
 [ -f /tmp/mkclustername ] && MAPR_CLUSTER=`cat /tmp/mkclustername` 
 
-#chmod a+x $BINDIR/deploy-installer.sh
-#$BINDIR/deploy-installer.sh
-#[ $? -ne 0 ] && exit 1
+chmod a+x $BINDIR/deploy-installer.sh
+$BINDIR/deploy-installer.sh
+[ $? -ne 0 ] && exit 1
 
 
 # Make sure the hostnames in our cluster resolve.   There
@@ -127,11 +127,11 @@ done
 #
 sh $BINDIR/gendist-sshkey.sh $SUDO_USER $SUDO_PASSWD id_rsa
 sh $BINDIR/gendist-sshkey.sh mapr $MAPR_PASSWD id_launch
-
 ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 cat ~mapr/.ssh/id_launch.pub >> ~/.ssh/authorized_keys
+
 
 # Now make sure that all the nodes have successfully 
 # completed the "prepare" step.  The evidence of that is
@@ -179,8 +179,6 @@ if [ $PWAIT -eq 0 ] ; then
 	echo "prepare-node.sh failed on some nodes; cannot proceed"
 	exit 1
 fi
-
-yum -y install httpd
 
 exit 0
 
@@ -269,6 +267,6 @@ fi
 # For PublicKey-configured clusters, disable password authentication
 #	NOTE: This means that the users will have to take the private
 #	key from the Admin User to run the installer again.
-#[ $dmcRet -eq 0 ] && sh $BINDIR/gen-lock-cluster.sh $SUDO_USER $AUTH_METHOD
+[ $dmcRet -eq 0 ] && sh $BINDIR/gen-lock-cluster.sh $SUDO_USER $AUTH_METHOD
 
 exit $dmcRet

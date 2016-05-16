@@ -1,33 +1,33 @@
 ﻿{
     "artifactsBaseUrl": {
-        "value": "https://raw.githubusercontent.com/jsunmapr/myazure/master"
+        "value": "https://raw.githubusercontent.com/mapr/mapr-azure/master"
     },
     "clusterName": {
-        "value": "mapr510"
+        "value": "mapr20160207"
     },
     "clusterSize": {
-        "value": 1
+        "value": 3
     },
     "clusterEdition": {
         "value": "M3"
     },
     "maprVersion": {
-        "value": "5.1.0"
+        "value": "5.0.0"
     },
     "adminUsername": {
-        "value": "mapradmin"
+        "value": "azadmin"
     },
     "adminPassword": {
-        "value": "maprazure"
+        "value": "MapRAzur3"
     },
     "maprPassword": {
-        "value": "maprazure"
+        "value": "MapRAZ"
     },
     "location": {
         "value": "West US"
     },
     "vmSize": {
-        "value": "Standard_D12"
+        "value": "Standard_D4"
     },
     "sshKey": {
             "value": ""

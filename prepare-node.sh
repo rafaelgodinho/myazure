@@ -162,7 +162,7 @@ function update_os_rpm() {
 	do_yum_install sysstat
 
 		# Failure to install these components IS NOT critical
-	yum install -y bind-utils less lsof expect 
+	yum install -y bind-utils less lsof
 	yum install -y clustershell pdsh
 	yum install -y sshpass
 
@@ -704,6 +704,7 @@ function disable_mapr_services()
 	fi
 }
 
+
 # High level wrapper around the above scripts. 
 # Ideally, we should handle errors correctly here.
 main() {
@@ -722,8 +723,7 @@ main() {
 	return 0
 }
 
-main 
-
+main
 exitCode=$?
 
 # Save of the install log to ~${MAPR_USER}; some cloud images
