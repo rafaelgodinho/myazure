@@ -145,7 +145,7 @@ SSHPASS_OPTS="-o PasswordAuthentication=yes   -o StrictHostKeyChecking=no -o Use
 
 nnodes=`wc -l $CF_HOSTS_FILE | awk '{print $1}'`
 
-perl $BINDIR/http.pl ${CLUSTER_HOSTNAME_BASE}0
+perl $BINDIR/http.pl ${CLUSTER_HOSTNAME_BASE}0 $SUDO_USER
 
 exit 0
 

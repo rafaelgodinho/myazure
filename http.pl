@@ -7,10 +7,11 @@ if ($myname eq $ARGV[0]){
  print "this is the first node\n";
  system("yum -y install httpd");
  system("mkdir -p /root/.ssh");
- system("cp ~mapradmin/.ssh/authorized_keys /root/.ssh");
+ system("cp ~$ARGV[1]/.ssh/authorized_keys /root/.ssh");
  system("rm -f /root/.ssh/id_rsa.pub");
- system("cp ~mapradmin/.ssh/id_rsa /root/.ssh");
- system("mv ~mapradmin/.ssh/authorized_keys /var/www/html/key");
+ system("cp ~$ARGV[1]/.ssh/id_rsa /root/.ssh");
+ system("cp ~$ARGV[1]/.ssh/config /root/.ssh");
+ system("cp ~$ARGV[1]/.ssh/authorized_keys /var/www/html/key");
  system("chmod 755 /var/www/html/key");
  system("service httpd restart");
 
