@@ -79,3 +79,22 @@ print INST $inst_script;
 close(INST);
 
 system("sh /tmp/mapr_install.sh");
+
+#wait for the cluster to be ready
+$checkfs=$checkmcs=$mtime=0;
+do{
+
+$fs=`hadoop fs -ls /tmp`; chomp $fs;
+if ($fs eq ""){$checkfs=1}
+
+$mcs=`lsof -i :8443`; chomp $mcs;
+if ($mcs ne ""){$checkmcs=1}
+
+print "Waiting for cluster to be ready...\n";
+sleep 2;
+$mtime=$mtime+2;
+
+if ($mtime >=100){print "Cluster failed to install\n";exit 1;}
+
+}until($checkfs==1 & $checkmcs==1);
+print "Cluster is ready...\n";
