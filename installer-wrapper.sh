@@ -148,93 +148,17 @@ nnodes=`wc -l $CF_HOSTS_FILE | awk '{print $1}'`
 perl $BINDIR/http.pl ${CLUSTER_HOSTNAME_BASE}0 $SUDO_USER
 perl $BINDIR/mapr_inst.pl
 
-exit 0
-
-	# Invoke installer
-	#	By default, it will go to https://localhost:9443 ... which is fine
-	#	ssh-user/ssh-password has to match what is in the template
-	#
-	# PYTRACE enables python tracing to stdout
-	#	--trace [-t] traces everything
-	#	--trackcalls posts cross-file function references
-
-MIPKG=`rpm -qa --qf "%{NAME}-%{VERSION}\n" mapr-installer`
-if [ "${MIPKG%.*}" = "mapr-installer-1.0" ] ; then
-	PYTRACE="/opt/mapr/installer/build/python/bin/python -m trace -t "
-fi
-
-# Minor issue with hive on M5/M7 clusters ... disable for now
-# if [ ${3:-M3} != "M3" ] ; then
-#	ECO_HIVE='--eco-version hive=none'
-# fi
-
-[ "${MAPR_VERSION%%.*}" = "5" ] && \
-	ECO_PIG='--eco-version pig=0.15'
-
-# 23-Mar-2016: frequent deployment failures with Pig ... skip for now
-ECO_PIG='--eco-version pig=none'
-
-if [ $AUTH_METHOD = "password" ] ; then
-	SSH_AUTH="--ssh-password $SUDO_PASSWD"
-else
-	SUDO_USER_DIR=`eval "echo ~${SUDO_USER}"`
-	SSH_AUTH="--ssh-keyfile $SUDO_USER_DIR/.ssh/id_rsa"
-fi
-
-chmod a+x $BINDIR/deploy-mapr-cluster.py
-echo $PYTRACE $BINDIR/deploy-mapr-cluster.py -y \
-	--ssh-user $SUDO_USER \
-	$SSH_AUTH \
-	--cluster $MAPR_CLUSTER \
-	--hosts-file /tmp/maprhosts \
-	--disks-file /tmp/MapR.disks ${ECO_HIVE:-} ${ECO_PIG:-} \
-	--mapr-password \$MAPR_PASSWD \
-	--mapr-edition ${3:-M3} \
-	--mapr-version ${MAPR_VERSION:-5.0.0} 
-
-MAX_TRIES=3
-attempt=1
-while [ $attempt -le $MAX_TRIES ] ; do
-	$PYTRACE $BINDIR/deploy-mapr-cluster.py -y \
-		--log-level INFO --log-file /opt/mapr/installer/logs/dmc.log \
-		--ssh-user $SUDO_USER \
-		$SSH_AUTH \
-		--cluster $MAPR_CLUSTER \
-		--hosts-file /tmp/maprhosts \
-		--disks-file /tmp/MapR.disks ${ECO_HIVE:-} ${ECO_PIG:-} \
-		--stage-user msazure \
-		--stage-password MyCl0ud.ms \
-		--mapr-password $MAPR_PASSWD \
-		--mapr-edition ${3:-M3} \
-		--mapr-version ${MAPR_VERSION:-5.0.0} 
-
-	dmcRet=$?
-	echo "Cluster Installation attempt $attempt returned status $dmcRet"
-
-		# Exit on success or INSTALL failure; retry on INIT or CHECK failure
-	if [ $dmcRet -eq 0  -o  $dmcRet -ge 3 ] ; then
-		attempt=$[MAX_TRIES + 1]
-	else
-		[ $attempt -lt $MAX_TRIES ] && sleep 20
-		attempt=$[attempt + 1]
-	fi
-done
-
 # Post-install operations on successful deployment
-if [ $dmcRet -eq 0  ] ; then
-		# enable SUDO_USER to access the cluster
-	[ ${SUDO_USER} != "root" ] && \
-		su $MAPR_USER -c "maprcli acl edit -type cluster -user $SUDO_USER:login"
+# enable SUDO_USER to access the cluster
+[ ${SUDO_USER} != "root" ] && \
+	su $MAPR_USER -c "maprcli acl edit -type cluster -user $SUDO_USER:login"
 
-		# Restart NFS (in case we installed trial license)
-	maprcli license apps -noheader | grep -q -w NFS
-	[ $? -eq 0 ] && \
-		maprcli node services -name nfs -action restart -filter '[csvc==nfs]'
-fi
+# Restart NFS (in case we installed trial license)
+maprcli license apps -noheader | grep -q -w NFS
+[ $? -eq 0 ] && \
+	maprcli node services -name nfs -action restart -filter '[csvc==nfs]'
 
 # For PublicKey-configured clusters, disable password authentication
 #	NOTE: This means that the users will have to take the private
 #	key from the Admin User to run the installer again.
-[ $dmcRet -eq 0 ] && sh $BINDIR/gen-lock-cluster.sh $SUDO_USER $AUTH_METHOD
 
-exit $dmcRet
