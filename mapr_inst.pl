@@ -106,6 +106,7 @@ print "Cluster is ready...\n";
 
 sub hiveserver_inst{
 $hive_config_file="/opt/mapr/hive/hive-1.2/conf/hive-site.xml";
+$headnode=`head -1 /tmp/maprhosts | awk '{print $1}'`;chomp $headnode;
 $mysql_user=$_[0];
 $mysql_passwd=$_[1];
 system("yum -y install mysql-server mapr-hivemetastore");
@@ -119,7 +120,6 @@ $hive_srv_config=
 system("sed -i \"s/<\\/configuration>\/$hive_srv_config\/g\" $hive_config_file\n"); 
 system("yum -y install mapr-hiveserver2");
 system("/opt/mapr/server/configure.sh -R"); 
-$headnode=$nbase . "node0";
 system("maprcli node services -name hivemeta -action stop -nodes $headnode");
 system("maprcli node services -name hs2 -action stop -nodes $headnode");
 system("maprcli node services -name hivemeta -action start -nodes $headnode");
