@@ -134,9 +134,13 @@ sleep 3;
 }
 print "Hive Server is ready.\n";
 system("hadoop fs -mkdir -p /user/$sudo_user/tmp/hive");
+system("hadoop fs -mkdir -p /user/hive");
 system("hadoop fs -chown -R $sudo_user /user/$sudo_user");
 system("hadoop fs -chgrp -R $sudo_user /user/$sudo_user");
+system("hadoop fs -chown -R mapr /user/hive");
+system("hadoop fs -chgrp -R mapr /user/hive");
 system("hadoop fs -chmod -R 777 /user/$sudo_user/tmp");
+system("hadoop fs -chmod -R 777 /user/hive");
 print "Cluster is ready.\n";
 
 } #hiveserver
