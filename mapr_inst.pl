@@ -117,13 +117,16 @@ $hive_srv_config=
 
 #print "sed -e \"s/<\\/configuration>\/$hive_srv_config\/g\" $hive_config_file\n"; 
 system("sed -i \"s/<\\/configuration>\/$hive_srv_config\/g\" $hive_config_file\n"); 
+system("yum -y install mapr-hiveserver2");
 system("/opt/mapr/server/configure.sh -R"); 
 
-while ($hivetmp eq ""){
-print "Waiting for hiveserver to come up....\n";
+while ($hivetmp eq "" | $hstmp eq ""){
+print "Waiting for hivemeta and hs2 to come up....\n";
 $hivetmp=`lsof -i :9083`;chomp $hivetmp;
+$hstmp=`lsof -i :10000`;chomp $hstmp;
 sleep 3;
 }
+
 print "Hive Server is ready.\n";
 
 } #hiveserver
