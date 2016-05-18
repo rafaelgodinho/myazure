@@ -119,6 +119,11 @@ $hive_srv_config=
 system("sed -i \"s/<\\/configuration>\/$hive_srv_config\/g\" $hive_config_file\n"); 
 system("yum -y install mapr-hiveserver2");
 system("/opt/mapr/server/configure.sh -R"); 
+$headnode=$nbase . "node0";
+system("maprcli node services -name hivemeta -action stop -nodes $headnode");
+system("maprcli node services -name hs2 -action stop -nodes $headnode");
+system("maprcli node services -name hivemeta -action start -nodes $headnode");
+system("maprcli node services -name hs2 -action start -nodes $headnode");
 
 while ($hivetmp eq "" | $hstmp eq ""){
 print "Waiting for hivemeta and hs2 to come up....\n";
