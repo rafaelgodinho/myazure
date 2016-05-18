@@ -109,6 +109,7 @@ $hive_config_file="/opt/mapr/hive/hive-1.2/conf/hive-site.xml";
 $headnode=`head -1 /tmp/maprhosts | awk '{print $1}'`;chomp $headnode;
 $mysql_user=$_[0];
 $mysql_passwd=$_[1];
+$sudo_user=$_[2];
 system("yum -y install mysql-server mapr-hivemetastore");
 system("chkconfig mysqld on; service mysqld start");
 system("mysqladmin -u $mysql_user password $mysql_passwd");
@@ -131,8 +132,12 @@ $hivetmp=`lsof -i :9083`;chomp $hivetmp;
 $hstmp=`lsof -i :10000`;chomp $hstmp;
 sleep 3;
 }
-
 print "Hive Server is ready.\n";
+system("hadoop fs -mkdir -p /user/$sudo_user/tmp/hive");
+system("hadoop fs -chown -R $sudo_user /user/$sudo_user");
+system("hadoop fs -chgrp -R $sudo_user /user/$sudo_user");
+system("hadoop fs -chmod -R 777 /user/$sudo_user/tmp");
+print "Cluster is ready.\n";
 
 } #hiveserver
 
@@ -140,4 +145,4 @@ print "Hive Server is ready.\n";
 print "Installing MapR Core...\n";
 &core_inst();
 print "Installing Hive metastore and Hive server ...\n";
-&hiveserver_inst(($ARGV[0],$ARGV[1]));
+&hiveserver_inst(@ARGV);
