@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 use Switch;
+
+sub core_inst{
 $clushf="/etc/clustershell/groups.d/local.cfg";
 $tmp=`awk '{print \$1}' /tmp/maprhosts`;chomp $tmp;
 @tmp=split(/\n/,$tmp);
@@ -10,9 +12,6 @@ if ($tmp[0]=~/^(.*)node(\d+)$/){
 $nbase=$1 . "node";
 }
 
-system("yum -y install mysql-server ansible");
-system("chkconfig mysqld on; service mysqld start");
-system("ysqladmin -u root password "$ARGV[0]");
 system("sed -i \"s/^all:.*/all:$nbase\[0-$#tmp]/g\" $clushf");
 
 switch($nnodes){
@@ -55,6 +54,7 @@ chop $web;
 open(FILE,">>$clushf");
 print FILE "$cldb\n$zk\n$rm\n$hs\n$web\n";
 close(FILE);
+
 
 $inst_script="
 clush -g zk yum install mapr-zookeeper -y
@@ -102,3 +102,34 @@ if ($mtime >=100){print "Cluster failed to install\n";exit 1;}
 
 }until($checkfs==1 & $checkmcs==1);
 print "Cluster is ready...\n";
+} #core
+
+sub hiveserver_inst{
+$hive_config_file="/opt/mapr/hive/hive-1.2/conf/hive-site.xml";
+$mysql_user=$_[0];
+$mysql_passwd=$_[1];
+system("yum -y install mysql-server mapr-hivemetastore");
+system("chkconfig mysqld on; service mysqld start");
+system("mysqladmin -u $mysql_user password $mysql_passwd");
+
+$hive_srv_config=
+"<property><name>javax.jdo.option.ConnectionURL<\\/name><value>jdbc:mysql:\\/\\/localhost:3306\\/hive?createDatabaseIfNotExist=true<\\/value><\\/property>\\n<property><name>javax.jdo.option.ConnectionDriverName<\\/name><value>com.mysql.jdbc.Driver<\\/value><\\/property>\\n<property><name>javax.jdo.option.ConnectionUserName<\\/name><value>$mysql_user<\\/value><\\/property>\\n<property><name>javax.jdo.option.ConnectionPassword<\\/name><value>$mysql_passwd<\\/value><\\/property>\\n<property><name>hive.metastore.warehouse.dir<\\/name><value>\\/user\\/hive\\/warehouse<\\/value><\\/property>\\n<property><name>hive.metastore.uris<\\/name><value>thrift:\\/\\/localhost:9083<\\/value><\\/property>\\n<property><name>datanucleus.autoCreateSchema<\\/name><value>true<\\/value><\\/property>\\n<property><name>datanucleus.autoCreateTables<\\/name><value>true<\\/value><\\/property>\\n<\\/configuration>";
+
+#print "sed -e \"s/<\\/configuration>\/$hive_srv_config\/g\" $hive_config_file\n"; 
+system("sed -i \"s/<\\/configuration>\/$hive_srv_config\/g\" $hive_config_file\n"); 
+system("/opt/mapr/server/configure.sh -R"); 
+
+while ($hivetmp eq ""){
+print "Waiting for hiveserver to come up....\n";
+$hivetmp=`lsof -i :9083`;chomp $hivetmp;
+sleep 3;
+}
+print "Hive Server is ready.\n";
+
+} #hiveserver
+
+#main
+print "Installing MapR Core...\n";
+&core_inst();
+print "Installing Hive metastore and Hive server ...\n";
+&hiveserver_inst(($ARGV[0],$ARGV[1]));

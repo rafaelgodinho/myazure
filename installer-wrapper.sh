@@ -146,7 +146,7 @@ SSHPASS_OPTS="-o PasswordAuthentication=yes   -o StrictHostKeyChecking=no -o Use
 nnodes=`wc -l $CF_HOSTS_FILE | awk '{print $1}'`
 
 perl $BINDIR/copy_keys.pl ${CLUSTER_HOSTNAME_BASE}0 $SUDO_USER
-perl $BINDIR/mapr_inst.pl $SUDO_PASSWD
+perl $BINDIR/mapr_inst.pl root $MAPR_PASSWD
 
 # Post-install operations on successful deployment
 # enable SUDO_USER to access the cluster
