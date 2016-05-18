@@ -10,6 +10,9 @@ if ($tmp[0]=~/^(.*)node(\d+)$/){
 $nbase=$1 . "node";
 }
 
+system("yum -y install mysql-server ansible");
+system("chkconfig mysqld on; service mysqld start");
+system("ysqladmin -u root password "$ARGV[0]");
 system("sed -i \"s/^all:.*/all:$nbase\[0-$#tmp]/g\" $clushf");
 
 switch($nnodes){
@@ -52,7 +55,6 @@ chop $web;
 open(FILE,">>$clushf");
 print FILE "$cldb\n$zk\n$rm\n$hs\n$web\n";
 close(FILE);
-
 
 $inst_script="
 clush -g zk yum install mapr-zookeeper -y
