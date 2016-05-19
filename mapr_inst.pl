@@ -63,6 +63,7 @@ clush -g cldb yum install mapr-cldb -y
 clush -g rm yum install mapr-resourcemanager -y
 clush -g hs yum install mapr-historyserver -y
 clush -g web yum install mapr-webserver -y
+clush -a yum install mapr-drill -y
 
 clush -a /opt/mapr/server/configure.sh -C `nodeset -S, -e \@cldb` -Z `nodeset -S, -e \@zk` -N mapr -RM `nodeset -S, -e \@rm` -HS `nodeset -S, -e \@hs` -no-autostart
 
