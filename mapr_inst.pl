@@ -143,6 +143,7 @@ system("hadoop fs -chmod -R 777 /user/$sudo_user/tmp");
 system("hadoop fs -chmod -R 777 /user/hive");
 
 #install drill
+print "Installing Drill..\n";
 system("clush -a yum -y install mapr-drill");
 print "Cluster is ready.\n";
 
