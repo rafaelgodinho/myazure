@@ -2,6 +2,7 @@
 use Switch;
 
 sub core_inst{
+$clustername=$_[0];
 $clushf="/etc/clustershell/groups.d/local.cfg";
 $tmp=`awk '{print \$1}' /tmp/maprhosts`;chomp $tmp;
 @tmp=split(/\n/,$tmp);
@@ -67,7 +68,7 @@ clush -g rm yum install mapr-resourcemanager -y
 clush -g hs yum install mapr-historyserver -y
 clush -g web yum install mapr-webserver -y
 
-clush -a /opt/mapr/server/configure.sh -C `nodeset -S, -e \@cldb` -Z `nodeset -S, -e \@zk` -N mapr -RM `nodeset -S, -e \@rm` -HS `nodeset -S, -e \@hs` -no-autostart
+clush -a /opt/mapr/server/configure.sh -C `nodeset -S, -e \@cldb` -Z `nodeset -S, -e \@zk` -N $clustername -RM `nodeset -S, -e \@rm` -HS `nodeset -S, -e \@hs` -no-autostart
 
 clush -a /opt/mapr/server/disksetup -F /tmp/MapR.disks
 
@@ -154,6 +155,6 @@ print "Cluster is ready.\n";
 
 #main
 print "Installing MapR Core...\n";
-&core_inst();
+&core_inst(($ARGV[$#ARGV]));
 print "Installing Hive metastore and Hive server ...\n";
 &hiveserver_inst(@ARGV);

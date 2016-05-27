@@ -53,6 +53,7 @@ echo -e "$SUDO_PASSWD\n$SUDO_PASSWD" | (passwd --stdin $SUDO_USER)
 
 HOSTNAME=`hostname`
 CLUSTER_HOSTNAME_BASE="${HOSTNAME%node*}node"
+CLUSTER_NAME="${HOSTNAME%node*}"
 
 sh $BINDIR/prepare-disks.sh
 
@@ -146,7 +147,7 @@ SSHPASS_OPTS="-o PasswordAuthentication=yes   -o StrictHostKeyChecking=no -o Use
 nnodes=`wc -l $CF_HOSTS_FILE | awk '{print $1}'`
 
 perl $BINDIR/copy_keys.pl ${CLUSTER_HOSTNAME_BASE}0 $SUDO_USER
-perl $BINDIR/mapr_inst.pl root $MAPR_PASSWD $SUDO_USER
+perl $BINDIR/mapr_inst.pl root $MAPR_PASSWD $SUDO_USER $CLUSTER_NAME
 
 # Post-install operations on successful deployment
 # enable SUDO_USER to access the cluster
