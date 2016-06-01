@@ -17,7 +17,7 @@ system("sed -i \"s/^all:.*/all:$nbase\[0-$#tmp]/g\" $clushf");
 
 switch($nnodes){
 case 1 {@zk=qw(0);@cldb=qw(0);@rm=qw(0);@hs=qw(0);@web=qw(0);}
-case 3 {@zk=qw(0 1 2);@cldb=qw(0);@rm=qw(0 1);@hs=qw(2);@web=qw(0);}
+case 3 {@zk=qw(0 1 2);@cldb=qw(0 1);@rm=qw(0 1);@hs=qw(2);@web=qw(0);}
 case 6 {@zk=qw(0 1 2);@cldb=qw(3 4 5);@rm=qw(4 5);@hs=qw(4);@web=qw(0 1);}
 case 10 {@zk=qw(0 1 2);@cldb=qw(3 4 5);@rm=qw(4 5);@hs=qw(4);@web=qw(0 1);}
 case 20 {@zk=qw(0 1 2);@cldb=qw(3 4 5);@rm=qw(4 5);@hs=qw(4);@web=qw(0 1);}
