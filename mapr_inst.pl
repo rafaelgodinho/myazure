@@ -98,7 +98,7 @@ if ($fs eq ""){$checkfs=1}
 $mcs=`lsof -i :8443`; chomp $mcs;
 if ($mcs ne ""){$checkmcs=1}
 
-print "Waiting for cluster to be ready...\n";
+print "Waiting for base cluster to be ready...\n";
 sleep 2;
 $mtime=$mtime+2;
 
