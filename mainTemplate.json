@@ -82,28 +82,21 @@
         },
         "vmSize": {
             "type": "string",
-            "defaultValue": "Standard_D3",
-            "allowedValues": ["Standard_D3", "Standard_D4", "Standard_D12", "Standard_D13", "Standard_D14"],
             "metadata": {
                 "description": "InstanceType to use for this deployment"
             }
         }
     },
     "variables": {
-        "imagePublisher" : "OpenLogic",
-        "imageOffer" : "CentOS",
-        "imageSKU" : "6.6",
         "scriptsUri" : "[concat(parameters('artifactsBaseUrl'),'/')]",
         "nicBasename": "[concat(parameters('clusterName'),'-nic')]",
         "publicIPAddressBasename": "[concat(parameters('clusterName'),'-publicIP')]",
-        "storageAccountBasename": "[concat(trim(substring(concat(parameters('clusterName'),'        '),0,8)),substring(uniquestring(resourceGroup().id),0,8),'sa')]",
         "networkSpec" : {
             "vnetCIDR":"10.0.0.0/16",
             "subnet1Name": "Privnet-1",
             "subnet1CIDR" : "10.0.0.0/24"
         },
         "publicIPAddressType" : "Dynamic",
-        "storageAccountType": "Standard_LRS",
         "vnetID":"[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('clusterName'), '-vnet'))]",
         "subnet1Ref" : "[concat(variables('vnetID'),'/subnets/',variables('networkSpec').subnet1Name)]"
     },
@@ -156,7 +149,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(variables('scriptsUri'), parameters('vmSize'), '_', parameters('authenticationType'), '.json')]",
+                "uri": "[concat(variables('scriptsUri'), 'vms.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -166,8 +159,8 @@
                 "clusterName" : {
                     "value": "[parameters('clusterName')]"
                 },
-                "scriptsUri" : {
-                    "value": "[variables('scriptsUri')]"
+                "vmSize": {
+                    "value": "[parameters('vmSize')]"
                 },
                 "adminUsername" : {
                     "value": "[parameters('adminUsername')]"
@@ -175,27 +168,21 @@
                 "adminPassword" : {
                     "value": "[parameters('adminPassword')]"
                 },
-                "imagePublisher" : {
-                    "value": "[variables('imagePublisher')]"
+                "sshKey" : {
+                    "value" : "[parameters('sshKey')]"
                 },
-                "imageOffer" : {
-                    "value": "[variables('imageOffer')]"
-                },
-                "imageSKU" : {
-                    "value": "[variables('imageSKU')]"
-                },
+                "authenticationType" : {
+                    "value" : "[parameters('authenticationType')]"
+                },                
+                "nicBasename" : {
+                    "value" : "[variables('nicBasename')]"
+                },                
                 "location" : {
                     "value": "[parameters('location')]"
                 },
-                "storageAccountBasename" : {
-                    "value" : "[variables('storageAccountBasename')]"
-                },
-                "nicBasename" : {
-                    "value" : "[variables('nicBasename')]"
-                },
-                "sshKey" : {
-                    "value" : "[parameters('sshKey')]"
-                }    
+                "scriptsUri" : {
+                    "value": "[variables('scriptsUri')]"
+                }                                    
             }
         }
     },
@@ -247,10 +234,5 @@
         }
     }
     ],
-    "outputs": {
-        "vms": {
-            "type": "string",
-            "value": "[concat(variables('scriptsUri'), parameters('vmSize'), '.json')]"
-        }
-    }    
+    "outputs": {}    
 }
