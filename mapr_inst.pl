@@ -124,6 +124,7 @@ $hive_srv_config=
 system("sed -i \"s/<\\/configuration>\/$hive_srv_config\/g\" $hive_config_file\n"); 
 system("yum -y install mapr-hiveserver2");
 system("clush -a /opt/mapr/server/configure.sh -R"); 
+sleep 20;
 system("maprcli node services -name hivemeta -action stop -nodes $headnode");
 system("maprcli node services -name hs2 -action stop -nodes $headnode");
 system("maprcli node services -name hivemeta -action start -nodes $headnode");
