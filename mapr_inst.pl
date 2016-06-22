@@ -149,12 +149,19 @@ system("hadoop fs -chmod -R 777 /user/hive");
 #install drill
 print "Installing Drill..\n";
 system("clush -a yum -y install mapr-drill");
-print "Cluster is ready.\n";
 
 } #hiveserver
+
+sub post_inst{
+system("clush -a \"sed -e 's/#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config\"");
+system("clush -a service sshd restart");
+print "Cluster is ready.\n";
+} #post_inst
+
 
 #main
 print "Installing MapR Core...\n";
 &core_inst(($ARGV[$#ARGV]));
 print "Installing Hive metastore and Hive server ...\n";
 &hiveserver_inst(@ARGV);
+&post_inst();
