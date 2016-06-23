@@ -154,8 +154,8 @@ system("clush -a yum -y install mapr-drill");
 } #hiveserver
 
 sub post_inst{
-system("clush -a \"sed -i 's/#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config\"");
-system("clush -a service sshd restart");
+#system("clush -a \"sed -i 's/#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config\"");
+#system("clush -a service sshd restart");
 system("rm -rf /tmp/mapr_install.sh");
 print "Cluster is ready.\n";
 } #post_inst
