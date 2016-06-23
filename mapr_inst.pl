@@ -77,6 +77,7 @@ clush -a mkdir -p /mapr
 echo \"localhost:/mapr  /mapr  hard,nolock\" > /opt/mapr/conf/mapr_fstab
 clush -ac /opt/mapr/conf/mapr_fstab --dest /opt/mapr/conf/mapr_fstab
 
+clush -ac `find /var/lib/waagent/ -name partner.jar` --dest=/opt/mapr/lib
 clush -a /etc/init.d/mapr-zookeeper start
 clush -a /etc/init.d/mapr-warden start
 ";
@@ -155,6 +156,7 @@ system("clush -a yum -y install mapr-drill");
 sub post_inst{
 system("clush -a \"sed -i 's/#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config\"");
 system("clush -a service sshd restart");
+system("rm -rf /tmp/mapr_install.sh");
 print "Cluster is ready.\n";
 } #post_inst
 
