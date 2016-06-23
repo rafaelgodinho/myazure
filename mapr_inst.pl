@@ -156,6 +156,8 @@ system("clush -a yum -y install mapr-drill");
 sub post_inst{
 #system("clush -a \"sed -i 's/#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config\"");
 #system("clush -a service sshd restart");
+$lca=`find /var/lib/waagent -name lca`; chomp $lca;
+system("chmod u+x $lca;$lca");
 system("rm -rf /tmp/mapr_install.sh");
 print "Cluster is ready.\n";
 } #post_inst
