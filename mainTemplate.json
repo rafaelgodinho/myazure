@@ -104,7 +104,7 @@
     {
         "name": "network",
         "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2015-01-01",
+        "apiVersion": "2016-02-01",
         "properties": {
             "mode": "Incremental",
             "templateLink": {
@@ -142,7 +142,7 @@
     {
         "name": "vms",
         "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2015-01-01",
+        "apiVersion": "2016-02-01",
         "dependsOn": [
             "['Microsoft.Resources/deployments/network']"
         ],        
@@ -189,7 +189,7 @@
     {
         "name": "extensions",
         "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2015-01-01",
+        "apiVersion": "2016-02-01",
         "dependsOn": [
             "['Microsoft.Resources/deployments/vms']"
         ],        
