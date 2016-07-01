@@ -50,7 +50,7 @@
             "publisher": "Microsoft.OSTCExtensions",
             "type": "CustomScriptForLinux",
             "typeHandlerVersion": "1.5",
-            “autoUpgradeMinorVersion”:true,
+            "autoUpgradeMinorVersion":true,
             "settings": {
                 "fileUris": [
                     "[concat(parameters('scriptsUri'), 'gen-cluster-hosts.sh')]",
