@@ -68,7 +68,6 @@
                     "[concat(parameters('scriptsUri'), 'mapr-setup.sh')]",
                     "[concat(parameters('scriptsUri'), 'copy_keys.pl')]",
                     "[concat(parameters('scriptsUri'), 'mapr_inst.pl')]",
-                    "[concat(parameters('scriptsUri'), 'partner.jar')]",
                     "[concat(parameters('scriptsUri'), 'installer-wrapper.sh')]"
                 ]
             },
