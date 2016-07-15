@@ -77,7 +77,6 @@ clush -a mkdir -p /mapr
 echo \"localhost:/mapr  /mapr  hard,nolock\" > /opt/mapr/conf/mapr_fstab
 clush -ac /opt/mapr/conf/mapr_fstab --dest /opt/mapr/conf/mapr_fstab
 
-clush -ac `find /var/lib/waagent/ -name partner.jar` --dest=/opt/mapr/lib
 clush -a /etc/init.d/mapr-zookeeper start
 clush -a /etc/init.d/mapr-warden start
 ";
