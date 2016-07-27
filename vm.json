@@ -41,7 +41,7 @@
     "variables": {
         "imagePublisher" : "OpenLogic",
         "imageOffer" : "CentOS",
-        "imageSKU" : "6.6",
+        "imageSKU" : "6.7",
         "imageVersion": "latest",
         "sizeOfEachDataDiskInGB": 1023,
         "dd1": "[concat('http://', parameters('storageAccountName'), '.blob.core.windows.net/vhds/', parameters('vmName'), '-dd1.vhd')]",
