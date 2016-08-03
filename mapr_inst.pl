@@ -132,10 +132,12 @@ system("maprcli node services -name hs2 -action stop -nodes $headnode");
 system("maprcli node services -name hivemeta -action start -nodes $headnode");
 system("maprcli node services -name hs2 -action start -nodes $headnode");
 
-while ($hivetmp eq "" | $hstmp eq ""){
+while ($hivetmp != 0 | $hstmp != 0){
 print "Waiting for hivemeta and hs2 to come up....\n";
-$hivetmp=`lsof -i :9083`;chomp $hivetmp;
-$hstmp=`lsof -i :10000`;chomp $hstmp;
+`lsof -i :9083 | grep -i listen`;
+$hivetmp=$?;
+`lsof -i :10000 | grep -i listen`;
+$hstmp=$?;
 sleep 3;
 }
 print "Hive Server is ready.\n";
