@@ -91,11 +91,13 @@ system("sh /tmp/mapr_install.sh");
 $checkfs=$checkmcs=$mtime=0;
 do{
 
-$fs=`hadoop fs -ls /tmp`; chomp $fs;
-if ($fs eq ""){$checkfs=1}
+`hadoop fs -stat / >& /dev/null`; 
+$fs=$?;
+if ($fs == 0){$checkfs=1}else{$checkfs=0}
 
-$mcs=`lsof -i :8443`; chomp $mcs;
-if ($mcs ne ""){$checkmcs=1}
+`lsof -i :8443 | grep -i listen >& /dev/null`;
+$mcs=$?; 
+if ($mcs == 0){$checkmcs=1}else{$checkmcs=0}
 
 print "Waiting for base cluster to be ready...\n";
 sleep 2;
