@@ -127,10 +127,10 @@ system("sed -i \"s/<\\/configuration>\/$hive_srv_config\/g\" $hive_config_file\n
 system("yum -y install mapr-hiveserver2");
 system("clush -a /opt/mapr/server/configure.sh -R"); 
 sleep 20;
-system("maprcli node services -name hivemeta -action stop -nodes $headnode");
-system("maprcli node services -name hs2 -action stop -nodes $headnode");
-system("maprcli node services -name hivemeta -action start -nodes $headnode");
-system("maprcli node services -name hs2 -action start -nodes $headnode");
+`maprcli node services -name hivemeta -action stop -nodes $headnode >& /dev/null`;
+`maprcli node services -name hs2 -action stop -nodes $headnode >& /dev/null`;
+`maprcli node services -name hivemeta -action start -nodes $headnode >& /dev/null`;
+`maprcli node services -name hs2 -action start -nodes $headnode >& /dev/null`;
 
 while ($hivetmp != 0 | $hstmp != 0){
 print "Waiting for hivemeta and hs2 to come up....\n";
@@ -159,8 +159,8 @@ system("clush -a yum -y install mapr-drill");
 sub post_inst{
 #system("clush -a \"sed -i 's/#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config\"");
 #system("clush -a service sshd restart");
-$lca=`find /var/lib/waagent -name lca`; chomp $lca;
-system("chmod u+x $lca;$lca");
+#$lca=`find /var/lib/waagent -name lca`; chomp $lca;
+#system("chmod u+x $lca;$lca");
 system("rm -rf /tmp/mapr_install.sh");
 print "Cluster is ready.\n";
 } #post_inst
