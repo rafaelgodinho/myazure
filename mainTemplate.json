@@ -85,10 +85,53 @@
             "metadata": {
                 "description": "InstanceType to use for this deployment"
             }
+        },
+        "vnetNewOrExisting": {
+            "type": "string",
+            "metadata": {
+                "description": "Use an existing virtual network or create a new one"
+            }            
+        },
+        "vnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "Virtual network name"
+            }            
+        },
+        "vnetSubnetName": {
+            "type": "string",
+            "metadata": {
+                "description": "Subnet name"
+            }            
+        },
+        "vnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Virtual network address prefix"
+            }            
+        },
+        "vnetSubnetAddressPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Subnet address prefix"
+            }            
+        },
+        "vnetStartAddress": {
+            "type": "string",
+            "metadata": {
+                "description": "Initial IP address on the subnet"
+            }            
+        },
+        "vnetRGName": {
+            "type": "string",
+            "metadata": {
+                "description": "Virtual network resource group name"
+            }            
         }
     },
     "variables": {
-        "scriptsUri" : "[concat(parameters('artifactsBaseUrl'),'/')]",
+        "scriptsUri" : "[concat(parameters('artifactsBaseUrl'), '/')]",
         "nicBasename": "[concat(parameters('clusterName'),'-nic')]",
         "publicIPAddressBasename": "[concat(parameters('clusterName'),'-publicIP')]",
         "networkSpec" : {
