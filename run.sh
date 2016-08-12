@@ -31,7 +31,7 @@ templateUri="https://$storageAccountName.blob.core.windows.net/$containerName/ma
 #   - mainTemplate.ssh.newVNet.parameters.json
 #   - mainTemplate.password.existingVNet.parameters.json
 #   - mainTemplate.ssh.existingVNet.parameters.json 
-parametersFile="mainTemplate.ssh.newVNet.parameters.json"
+parametersFile="mainTemplate.ssh.existingVNet.parameters.json"
 deploymentName="deploy$newResourceGroupName"
 
 echo "Deploying $parametersFile"
