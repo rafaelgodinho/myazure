@@ -47,7 +47,7 @@
         "vnetRGName": {
             "type": "string"
         },                        
-        "scriptUri": {
+        "scriptsUri": {
             "type": "string"
         }        
     },
@@ -80,7 +80,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-            "uri": "[concat(parameters('scriptUri'), 'vnet_', parameters('vnetNewOrExisting'), '.json')]",
+            "uri": "[concat(parameters('scriptsUri'), 'vnet_', parameters('vnetNewOrExisting'), '.json')]",
             "contentVersion": "1.0.0.0"
             },
             "parameters": {

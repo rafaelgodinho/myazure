@@ -17,7 +17,8 @@
             "defaultValue": ""
         },
         "sshKey": {
-            "type": "securestring"
+            "type": "securestring",
+            "defaultValue": ""
         },
         "authenticationType": {
             "type": "string"

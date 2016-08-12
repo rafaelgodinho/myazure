@@ -40,7 +40,6 @@
             }
         },
         "adminUsername": {
-            "defaultValue": "azadmin",
             "type": "securestring",
             "metadata": {
                  "description": "System Administrator for deployed nodes"
@@ -134,14 +133,7 @@
         "scriptsUri" : "[concat(parameters('artifactsBaseUrl'), '/')]",
         "nicBasename": "[concat(parameters('clusterName'),'-nic')]",
         "publicIPAddressBasename": "[concat(parameters('clusterName'),'-publicIP')]",
-        "networkSpec" : {
-            "vnetCIDR":"10.0.0.0/16",
-            "subnet1Name": "Privnet-1",
-            "subnet1CIDR" : "10.0.0.0/24"
-        },
-        "publicIPAddressType" : "Dynamic",
-        "vnetID":"[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('clusterName'), '-vnet'))]",
-        "subnet1Ref" : "[concat(variables('vnetID'),'/subnets/',variables('networkSpec').subnet1Name)]"
+        "publicIPAddressType" : "Dynamic"
     },
     "resources": [
     {
@@ -170,15 +162,33 @@
                 "publicIPAddressType": {
                     "value": "[variables('publicIPAddressType')]"
                 },
-                "networkSpec" : {
-                    "value" : "[variables('networkSpec')]"
-                },
                 "nicBasename" : {
                     "value" : "[variables('nicBasename')]"
                 },
-                "subnet1Ref" : {
-                    "value" : "[variables('subnet1Ref')]"
-                }
+                "vnetNewOrExisting": {
+                    "value": "[parameters('vnetNewOrExisting')]"
+                },
+                "vnetName": {
+                    "value": "[parameters('vnetName')]"
+                },
+                "vnetSubnetName": {
+                    "value": "[parameters('vnetSubnetName')]"
+                },
+                "vnetAddressPrefix": {
+                    "value": "[parameters('vnetAddressPrefix')]"
+                },
+                "vnetSubnetAddressPrefix": {
+                    "value": "[parameters('vnetSubnetAddressPrefix')]"
+                },
+                "vnetStartAddress": {
+                    "value": "[parameters('vnetStartAddress')]"
+                },
+                "vnetRGName": {
+                    "value": "[parameters('vnetRGName')]"
+                },
+                "scriptsUri" : {
+                    "value": "[variables('scriptsUri')]"
+                }                                    
             }
         }
     },
