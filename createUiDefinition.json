@@ -207,7 +207,54 @@
           }
 
         ]
-      }
+      },
+      { 
+        "name": "networkInfo",
+        "label": "Network information",
+        "subLabel": {
+          "preValidation": "Provide network information",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Network information",
+        "elements": [
+          {          "name": "vnetSelector",
+          "type": "Microsoft.Network.VirtualNetworkCombo",
+          "label": {
+            "virtualNetwork": "Virtual network",
+            "subnets": "Subnets"
+          },
+          "toolTip": {
+            "virtualNetwork": "",
+            "subnets": ""
+          },
+          "defaultValue": {
+            "name": "vnet01",
+            "addressPrefixSize": "/27"
+          },
+          "constraints": {
+            "minAddressPrefixSize": "/27"
+          },
+          "options": {
+            "hideExisting": false
+          },
+          "subnets": {
+            "subnet1": {
+              "label": "Subnet",
+              "defaultValue": {
+                "name": "subnet-1",
+                "addressPrefixSize": "/27"
+              },
+              "constraints": {
+                "minAddressPrefixSize": "/27",
+                "minAddressCount": "[steps('MapRClusterConfig').clusterNodeCount]",
+                "requireContiguousAddresses": true
+              }
+            }
+          },
+          "visible": true
+        }
+      ]
+      }      
     ],
     "outputs": {
       "clusterName": "[basics('clusterName')]",
@@ -220,7 +267,14 @@
       "sshKey": "[basics('SSHCredntials').sshPublicKey]",
       "maprVersion": "[steps('MapRClusterConfig').MapRVersion]",
       "clusterEdition": "[steps('MapRClusterConfig').MapRLicenseType]",
-      "maprPassword": "[steps('MapRClusterConfig').MapRPassword]"
+      "maprPassword": "[steps('MapRClusterConfig').MapRPassword]",
+      "vnetNewOrExisting" : "[steps('networkInfo').vnetSelector.newOrExisting]",
+      "vnetAddressPrefix" : "[steps('networkInfo').vnetSelector.addressPrefix]",
+      "vnetName": "[steps('networkInfo').vnetSelector.name]",
+      "vnetRGName": "[steps('networkInfo').vnetSelector.resourceGroup]",      
+      "vnetSubnetName": "[steps('networkInfo').vnetSelector.subnets.subnet1.name]",
+      "vnetSubnetAddressPrefix": "[steps('networkInfo').vnetSelector.subnets.subnet1.addressPrefix]",
+      "vnetStartAddress": "[steps('networkInfo').vnetSelector.subnets.subnet1.startAddress]"      
     }
   }
 }
